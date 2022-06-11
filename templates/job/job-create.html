@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>新規ジョブ作成画面</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/job-create.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="post" id="frmJobCreate">
+    <div class="cp_breadcrumb">
+        <ul class="breadcrumbs">
+            <li><a href="/top">TOP</a></li>
+            <li>新規ジョブ作成</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="w-75 m-auto">
+            <article class="my-3">
+                <article class="d-flex row mb-3">
+                    <label for="title" class="mt-2 col-lg-3">タイトル*</label>
+                    <input type="text" name="title" id="title" class="form-control" maxlength="25" value="{{ job_title }}">
+                    <span class="c-tooltip" data-tooltip="ジョブのタイトルを入力します">
+                        <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                    </span>
+                </article>
+                <article class="d-flex row mb-3">
+                    <label for="creater" class="mt-2 col-lg-3">作成者*</label>
+                    <input type="text" name="creater" id="creater" class="form-control" maxlength="20" placeholder="Tanigawa">
+                    <span class="c-tooltip" data-tooltip="ジョブの作成者を入力します">
+                        <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                    </span>
+                </article>
+                <article class="d-flex row mb-3">
+                    <label for="content" class="mt-2 col-lg-3">内容 </label>
+                    <textarea rows="5" name="content" id="content" class="form-control" maxlength="1000"></textarea>
+                    <span class="c-tooltip" data-tooltip="ジョブの内容を入力します">
+                        <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                    </span>
+                </article>
+                <article class="d-flex row mb-3">
+                    <label for="bcastDate" class="mt-2 col-lg-3">使用BCASTデータ日*</label>
+                    <input type="date" name="bcastDate" id="bcastDate" class="form-control">
+                    <span class="c-tooltip" data-tooltip="ループ発生前で一番近い日時を指定します">
+                        <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                    </span>
+                </article>
+                <article class="d-flex row mb-3">
+                    <label for="bcastTime" class="mt-2 col-lg-3">使用BCASTデータ時間*</label>
+                    <input type="time" name="bcastTime" id="bcastTime" class="form-control">
+                    <span class="c-tooltip" data-tooltip="ループ発生前で一番近い日時を指定します">
+                        <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                    </span>
+                </article>
+            </article>
+
+            <article class="mt-4">
+                <section class="d-flex row">
+                    <div class="col-lg-3"></div>
+                    <button type="button" id="btnExecute" class="btn btn-primary mr-2" onclick="onExecuteJob(this)">実行</button>
+                    <button type="button" id="btnCancel" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                </section>
+            </article>
+        </div>
+    </div>
+
+    <!-- 隠しパラメータ -->
+    <input type="hidden" id="defaultTime" value="{{ bcast_time }}">
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pages/job-create.js') }}"></script>
+{% endblock %}

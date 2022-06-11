@@ -1,0 +1,268 @@
+html {
+    margin:0 auto;
+    padding: 0;
+}
+
+/* body */
+body {
+    box-sizing: border-box;
+    min-height: 100vh;
+    margin:0 auto;
+    padding: 60px 0 50px 0;
+    position: relative;
+    vertical-align: middle;
+}
+
+/* header */
+header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 50px;
+    width: 100%;
+    padding: 0px;
+    background-color: #2F75B5;
+    color: white;
+    z-index: 100;
+}
+header .navbar {
+    padding: 0.25em 1rem !important;
+}
+
+/* footer */
+footer {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    padding-top: 5px;
+    background-color: #2F75B5;
+    color: white;
+    text-align: center;
+    z-index: 100;
+}
+footer > p {
+    font-size: 14px;
+    margin: 0px;
+}
+
+/***********************************
+ * ヒント
+ ***********************************/
+/* マウスオンする要素とツールチップを横並びにする */
+.c-tooltip {
+    display: inline-block;
+    position: relative;
+    padding: 5px;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+}
+
+/* ツールチップ共通の設定 */
+.c-tooltip::before,
+.c-tooltip::after {
+    -webkit-transition: all 0.2s;
+    opacity: 0;
+    position: absolute;
+    transition: all 0.2s;
+    visibility: hidden;
+    z-index: 11;
+}
+
+/* ツールチップ吹き出しのひげ */
+.c-tooltip::before {
+    -webkit-transform: translateY(-50%);
+    /* border-color: transparent #5f6368 transparent transparent; */
+    border-color: transparent #F0FAFF transparent transparent;
+    border-style: solid;
+    border-width: 3px 7px 3px 0;
+    content: "";
+    height: 0;
+    left: calc(100% + 6px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+}
+
+/* ツールチップ吹き出しの本体 */
+.c-tooltip::after {
+    -webkit-transform: translateY(-50%);
+    /* background: #5f6368; */
+    background: #F0FAFF;
+    border-radius: 3px;
+    color: #2f2f2f;
+    content: attr(data-tooltip); /* ここでdata-tooltipの内容を呼び出しているよ */
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    left: calc(100% + 13px);
+    padding: 5px 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+}
+
+/* マウスオンしたときのカーソルの設定 */
+.c-tooltip:hover {
+    cursor: pointer;
+}
+.c-tooltip:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+.c-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hint-icon {
+    color: dodgerblue;
+}
+
+/***********************************
+ * パンくずリスト
+ ***********************************/
+.cp_breadcrumb *, .cp_breadcrumb *:after, .cp_breadcrumb *:before {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+.cp_breadcrumb {
+    margin: 0.25em auto;
+    padding: 0.25em 2em;
+    color: #000;
+}
+.cp_breadcrumb a {
+    text-decoration: none;
+    color: blue;
+}
+.cp_breadcrumb .breadcrumbs {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+.cp_breadcrumb li {
+    display: inline-block;
+    position: relative;
+    padding-right: calc(16px + 8px);
+    margin-right: 8px;
+    color: #7986CB;
+}
+.cp_breadcrumb li::before {
+    content: '/';
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-align: center;
+    font-size: 1em;
+    color: inherit;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+}
+.cp_breadcrumb li:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    color: #000;
+}
+.cp_breadcrumb li:last-child::before {
+    content: normal;
+}
+
+/* paging */
+nav.pagination-container ul {
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    filter: drop-shadow(0px 1px 3px #ccc);
+    transition: 0.3s;
+    border-radius: 0px;
+    overflow: hidden;
+}
+.pagination li {
+    margin: 0;
+}
+nav.pagination-container ul li a {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 0;
+    padding: 15px 18px 13px;
+    background: #FFF;
+    line-height: 1;
+    border-right: solid 1px #eee;
+}
+li.first {
+    border-radius: 5px 0 0 5px;
+}
+li.last {
+    border-radius: 0 5px 5px 0;
+}
+li.page.navi-active a {
+    background: #ebfcfe;
+    transform: scale(1.2);
+}
+.pagenation_block dl {
+    border-bottom: solid 1px #ddd;
+}
+
+/***********************************
+ * custom styles
+ ***********************************/
+/* 画面前面の全体に表示 */
+#loading {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    opacity: 0.8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    overflow:hidden;
+}
+/* 画面の中心にローディング画像を表示する */
+#loading img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -40px 0 0 -40px;
+    width: auto;
+}
+
+/* autofill 無効化 */
+input:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* モーダルのヘッダー */
+.modal-header {
+    background-color: #0077CC;
+    padding: 16px 16px;
+    color: #FFF;
+    border-bottom: 2px dashed #0077CC;
+}
+
+/* DataTables:hover */
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+    background-color: #ffff99 !important;
+}
+
+/* 入力検証エラー */
+.validation-error {
+    background-color: #ffeeee;
+    border: 1px solid #ff0000;
+}
+.validation-error:focus {
+    background-color: #ffeeee;
+    border-color: #f5c6cb;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 25%) !important;
+}

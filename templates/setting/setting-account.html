@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>設定画面</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/setting.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="post" id="frmSettingAccount">
+    <div class="cp_breadcrumb">
+        <ul class="breadcrumbs">
+            <li><a href="/top">TOP</a></li>
+            <li>設定</li>
+        </ul>
+    </div>
+
+    <div class="container-fluid">
+        <div class="m-auto">
+            <article id="InputSection">
+                <section class="my-3">
+                    <h4>アカウント</h4>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="user" class="side-label col-sm-4 col-md-3 col-lg-3">ユーザ名</label>
+                        <input type="text" id="user" name="user" class="form-control" maxlength="10" data-validation="false" value="{{ setting.account_id }}" onblur="onBlurUser(this)">
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="password" class="side-label col-sm-4 col-md-3 col-lg-3">パスワード</label>
+                        <input type="password" id="password" name="password" class="form-control" maxlength="10" data-validation="false" onblur="onBlurPassword(this)">
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="reconfPassword" class="side-label col-sm-4 col-md-3 col-lg-3">パスワード(再入力)</label>
+                        <input type="password" id="reconfPassword" name="reconfPassword" class="form-control" maxlength="10" data-validation="false" onblur="onBlurRePassword(this)">
+                    </div>
+                </section>
+
+                <!-- 隠しパラメータ -->
+                <input type="hidden" name="modTime" value="{{ setting.modified_timestamp }}">
+            </article>
+
+            <article id="ButtonSection" class="mt-4">
+                <section id="SectionEdit">
+                    <div class="d-flex m-2">
+                        <button type="button" id="btnConfirm" class="btn btn-primary mr-2" onclick="onConfirmAccount(this)">確認</button>
+                        <button type="button" id="btnCancel1" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                    </div>
+                </section>
+                <section id="SectionConfirm" class="d-none">
+                    <div class="d-flex m-2">
+                        <button type="button" id="btnUpdate" class="btn btn-primary mr-2" onclick="onChangeAccount(this)">変更</button>
+                        <button type="button" id="btnEdit" class="btn btn-info mr-2" onclick="onEditAccount(this)">編集画面へ戻る</button>
+                        <button type="button" id="btnCancel2" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pages/setting.js') }}"></script>
+{% endblock %}

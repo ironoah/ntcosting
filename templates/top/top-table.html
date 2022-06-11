@@ -1,0 +1,40 @@
+<table id="jobTable" class="table cell-border compact nowrap hover w-100">
+    <thead>
+        <tr class="table-primary">
+            <th> </th>
+            <th>ID</th>
+            <th title="ジョブのタイトル">タイトル</th>
+            <th title="ジョブの作成者">作成者</th>
+            <th title="ジョブの開始日時">開始日時</th>
+            <th title="ジョブのステータス">ステータス</th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody class="page-group">
+        {% for job in jobs %}
+        <tr>
+            <td class="text-center">
+                <input type="checkbox" title="操作対象のジョブを選択" />
+            </td>
+            <td>
+                <a onclick="onTransitionEdit(this)">{{ job.job_id }}</a>
+            </td>
+            <td>{{ job.title }}</td>
+            <td>{{ job.create_user_name }}</td>
+            <td>{{ job.start_timestamp }}</td>
+            {% if job.job_status_cd == "010" %}
+                <td>{{ job.job_status_name }}({{ job.progress }}%)</td>
+            {% else %}
+                <td>{{ job.job_status_name }}</td>
+            {% endif %}
+            <td>
+                <a onclick="onTransitionDetail(this)">詳細</a>
+            </td>
+            <input type="hidden" data-col="job_id" value="{{ job.job_id }}">
+            <input type="hidden" data-col="status" value="{{ job.job_status_cd }}">
+            <input type="hidden" data-col="mod_time" value="{{ job.modified_timestamp }}">
+        </tr>
+        {% else %}
+        {% endfor %}
+    </tbody>
+</table>

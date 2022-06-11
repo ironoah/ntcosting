@@ -1,0 +1,30 @@
+footer {
+  position: fixed !important;
+}
+#title {
+  max-width: 500px;
+}
+#creater {
+  max-width: 400px;
+}
+#content {
+  max-width: 500px;
+}
+#lblJobId {
+  max-width: 100px;
+}
+#lblBcastDate {
+  max-width: 200px;
+}
+#lblBcastTime {
+  max-width: 150px;
+}
+.label-align {
+  margin-top :0.5rem !important;
+  text-align: right;
+}
+@media screen and (max-width: 990px) {
+  .label-align {
+      text-align: left;
+  }
+}

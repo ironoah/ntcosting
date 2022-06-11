@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- 画面別 title -->
+        {% block title %}
+        {% endblock %}
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+        <!-- datatables -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/DataTables/datatables.min.css') }}">
+        <!-- fontawesome -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome/all.min.css') }}">
+        <!-- favicon -->
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <!-- stylesheet -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+        <!-- 画面別 css -->
+        {% block style %}
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color:#2F75B5">
+                <a class="navbar-brand font-weight-bold text-white" style="font-size: 26px;">
+                    ループ箇所特定ツール
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                  
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav dropdown">
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                設定
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/top/setting/general">一般設定</a>
+                                <a class="dropdown-item" href="/top/setting/account">アカウント</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/top/log">ログ</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link text-white" href="/logout">ログアウト <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <div id="app" class="body-content">
+            <main class="p-2">
+                <!-- Message area -->
+                <div class="alert-area"></div>
+
+                <!-- Modal area -->
+                <div class="modal" id="appModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">確認</h5>
+                            </div>
+                            <div class="modal-body"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-dismiss="modal">キャンセル</button>
+                                <button type="button" id="btnCommit" class="btn btn-primary" data-modal-ok onclick="onCommit(this)">確定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% block content %}
+                {% endblock %}
+
+                <!-- Message Footer area -->
+                <div class="alert-footer-area"></div>
+            </main>
+        </div>
+
+        <footer>
+            <p>ループ箇所特定ツール Ver 1.0.0</p>
+            <p>© 2021 N.Tanigawa</p>
+        </footer>
+
+        <!-- jquery -->
+        <script src="{{ url_for('static', filename='js/jquery/jquery-3.6.0.min.js') }}"></script>
+        <!-- bootstrap -->
+        <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+        <!-- datatables -->
+        <script src="{{ url_for('static', filename='js/DataTables/datatables.min.js') }}"></script>
+        <!-- javascript -->
+        <script src="{{ url_for('static', filename='js/system.js') }}"></script>
+
+        <script>
+            var path = "{{ url_for('static', filename='loader.gif') }}";
+            var _callback;
+
+            window.onunload = function() {
+                var action = '/close';
+                $.ajax({
+                    type: 'GET',
+                    url: action
+                }).done(function(res) {
+                    return true;
+                }).fail(function(e) {
+                    return false;
+                });
+            }
+        </script>
+
+        <!-- 画面別 script -->
+        {% block script %}
+        {% endblock %}
+    </body>
+</html>

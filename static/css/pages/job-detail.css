@@ -1,0 +1,8 @@
+.cell-border thead th {
+    border-right: 1px solid #ccc;
+    border-bottom: 0px !important;
+    border-bottom-width: 0px !important;
+}
+label.wrap-label {
+    white-space: pre-wrap;
+}

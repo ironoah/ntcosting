@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>ジョブ編集画面</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/job-edit.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="post" id="frmJobEdit">
+    <div class="cp_breadcrumb">
+        <ul class="breadcrumbs">
+            <li><a href="/top">TOP</a></li>
+            <li>ジョブ編集</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="m-auto w-75">
+            <article class="d-flex row mb-3">
+                <label class="label-align col-lg-3">ID</label>
+                <label id="lblJobId" class="mt-2 ml-2">{{ job.job_id }}</label>
+            </article>
+            <article class="d-flex row mb-3">
+                <label for="title" class="label-align col-lg-3">タイトル*</label>
+                <input type="text" name="title" id="title" class="form-control" maxlength="25" value="{{ job.title }}">
+                <span class="c-tooltip" data-tooltip="ジョブのタイトルを入力します">
+                    <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                </span>
+            </article>
+            <article class="d-flex row mb-3">
+                <label for="creater" class="label-align col-lg-3">作成者*</label>
+                <input type="text" name="creater" id="creater" class="form-control" maxlength="20" value="{{ job.create_user_name }}">
+                <span class="c-tooltip" data-tooltip="ジョブの作成者を入力します">
+                    <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                </span>
+            </article>
+            <article class="d-flex row mb-3">
+                <label for="content" class="label-align col-lg-3">内容 </label>
+                <textarea rows="5" name="content" id="content" class="form-control" maxlength="1000">{{ job.content }}</textarea>
+                <span class="c-tooltip" data-tooltip="ジョブの内容を入力します">
+                    <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                </span>
+            </article>
+            <article class="d-flex row mb-3">
+                <label class="label-align col-lg-3">使用BCASTデータ日</label>
+                <label id="lblBcastDate" class="mt-2 ml-2">{{ job.bcast_data_date }}</label>
+            </article>
+            <article class="d-flex row mb-3">
+                <label class="label-align col-lg-3">使用BCASTデータ時間</label>
+                <label id="lblBcastTime" class="mt-2 ml-2">{{ job.bcast_data_time }}</label>
+            </article>
+
+            <article class="mt-4">
+                <section class="d-flex row">
+                    <div class="col-lg-3"></div>
+                    <button type="button" id="btnUpdate" class="btn btn-primary mr-2" onclick="onUpdateJob(this)">更新</button>
+                    <button type="button" id="btnCancel" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                </section>
+            </article>
+        </div>
+    </div>
+
+    <!-- 隠しパラメータ -->
+    <input type="hidden" id="jobId" name="jobId" value="{{ job.job_id }}">
+    <input type="hidden" id="modTime" name="modTime" value="{{ job.modified_timestamp }}">
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pages/job-edit.js') }}"></script>
+{% endblock %}

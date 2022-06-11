@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>ログ画面</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/log.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="post" id="frmLog">
+    <div class="cp_breadcrumb">
+        <ul class="breadcrumbs">
+            <li><a href="/top">TOP</a></li>
+            <li>ログ</li>
+        </ul>
+    </div>
+
+    <div class="container-fluid">
+        <article class="mt-2">
+            <section class="d-flex row m-2">
+                <div class="col-lg-1 col-sm-12">
+                    <label for="fromDate" class="mt-2">発生日</label>
+                </div>
+                <div class="col-lg-10 col-sm-12 d-flex flex-row">
+                    <input type="date" name="fromDate" id="fromDate" class="form-control" style="max-width:180px;" onblur="onBlurFromDate(this)">
+                    <label for="toDate" style="margin: 0.5rem 20px;">～</label>
+                    <input type="date" name="toDate" id="toDate" class="form-control" style="max-width:180px;" onblur="onBlurToDate(this)">
+                </div>
+            </section>
+            <section class="d-flex row m-2">
+                <div class="col-lg-1 col-sm-12">
+                    <label for="selectLogLvl" class="mt-2">ログレベル</label>
+                </div>
+                <div class="col-lg-2 col-sm-12">
+                    <select name="selectLogLvl" id="selectLogLvl" class="form-control custom-select" style="max-width:180px;">
+                        <option value="000">---</option>
+                        {% for lvl in log_lvl %}
+                        <option value="{{ lvl.log_lvl_cd }}">{{ lvl.log_lvl_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-1 col-sm-12">
+                    <label for="jobTitle" class="mt-2">タイトル</label>
+                </div>
+                <div class="col-lg-5 col-sm-12 row">
+                    <input type="text" name="jobTitle" id="jobTitle" class="form-control" maxlength="25" style="max-width:450px;">
+                    <label for="jobTitle" id="lblFuzzySearch">※曖昧検索可能</label>
+                </div>
+                <button type="button" id="btnSearch" class="btn btn-primary" onclick="onSearchLog(this)">検索</button>
+            </section>
+        </article>
+        <article id="logInfo" class="mt-4">
+            {% include 'log/log-table.html' %}
+        </article>
+
+        <!-- 隠しパラメータ -->
+        <input type="hidden" id="pageLength" value="{{ log_page_length }}">
+        <input type="hidden" name="jobId" id="jobId">
+        <input type="hidden" name="status" id="status" value="">
+
+        <article class="mt-4">
+            <section class="text-center m-2">
+                <button type="button" id="btnOutputCsv" class="btn btn-info mr-2" onclick="onOutputCsv(this)">内容をCSVで保存</button>
+                <button type="button" id="btnOutputTxt" class="btn btn-info mr-2" onclick="onOutputTxt(this)">内容をテキストで保存</button>
+            </section>
+        </article>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pages/log.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,36 @@
+<table id="logTable" class="table cell-border compact nowrap hover w-100">
+    <thead>
+        <tr class="table-info th-text-center">
+            <th>ログレベル</th>
+            <th>年月日</th>
+            <th>時刻</th>
+            <th>操作端末IP</th>
+            <th>ユーザ名</th>
+            <th>ログ種別</th>
+            <th>ジョブID</th>
+            <th>ジョブタイトル</th>
+            <th>内容</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.log_lvl_name }}</td>
+            <td class="text-center">{{ log.output_date }}</td>
+            <td class="text-center">{{ log.output_time }}</td>
+            <td class="text-center">{{ log.ope_ip_address }}</td>
+            <td class="text-center">{{ log.log_output_id }}</td>
+            <td>{{ log.log_type_name }}</td>
+            <td class="text-center">
+                {% if log.job_id %}
+                    <a data-col="job_id" onclick="onTransitionDetail(this)">{{ log.job_id }}</a>
+                {% else %}
+                {% endif %}
+            </td>
+            <td>{{ log.title }}</td>
+            <td>{{ log.content }}</td>
+        </tr>
+        {% else %}
+        {% endfor %}
+    </tbody>
+</table>

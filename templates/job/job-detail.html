@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>ジョブ詳細画面</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/job-detail.css') }}">
+{% endblock %}
+
+{% block content %}
+
+{% if message %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<form method="post" id="frmJobDetail">
+    <div class="cp_breadcrumb">
+        <ul class="breadcrumbs">
+            <li><a href="/top">TOP</a></li>
+            <li>ジョブ詳細</li>
+        </ul>
+    </div>
+
+    <div class="container-fluid mt-2">
+        <article class="w-100 m-auto">
+            <h4>{{ job.title }}</h4>
+            <article class="my-2">
+                <label>ID : </label>
+                <label>{{ job.job_id }}</label>
+            </article>
+            <article class="mb-2">
+                <label>作成者 : </label>
+                <label>{{ job.create_user_name }}</label>
+            </article>
+            <article class="mb-2 d-flex">
+                <label class="mr-1">内容 : </label>
+                <label class="wrap-label">{{ job.content }}</label>
+            </article>
+            <article class="mb-2">
+                <label class="">使用BCASTデータ日時 : </label>
+                <label>{{ job.use_bcast_timestamp }}</label>
+            </article>
+            <article class="mb-2">
+                <label class="mt-1 ">ステータス : </label>
+                <label>{{ job.job_status_name }}</label>
+            </article>
+
+            <!-- 10：実行中 -->
+            {% if job.job_status_cd == '010' %}
+            <article class="mt-4">
+                現在実行中({{ job.progress }}%)
+            </article>
+
+            <!-- 20：正常終了 -->
+            {% elif job.job_status_cd == '020' or job.job_status_cd == '021' %}
+            <article class="mt-4">
+                <h6>ループ箇所</h6>
+                <table id="loopTable" class="table cell-border compact nowrap hover w-100">
+                    <thead>
+                        <tr class="table-primary">
+                            <th>ホスト名</th>
+                            <th>IPアドレス</th>
+                            <th>ポート</th>
+                            <th>タイプ</th>
+                            <th>MACFLAP(回/分)</th>
+                            <th>設置場所</th>
+                            <th>設置ラック</th>
+                            <th>NW系統</th>
+                            <th>VLAN</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in loops %}
+                            {% if row.loop_flag == True %}
+                            <tr>
+                                <td class="text-center">{{ row.hostname }}</td>
+                                <td class="text-center">{{ row.ip_address }}</td>
+                                <td>{{ row.if_name }}</td>
+                                <td>{{ row.machine_type }}</td>
+                                <td>{{ row.macflap_count_per_min }}</td>
+                                <td>{{ row.location }}</td>
+                                <td>{{ row.rack_location }}</td>
+                                <td>{{ row.nw_type }}</td>
+                                <td>{{ row.vlan_id }}</td>
+                                <td>
+                                    <a href="teraterm://{{ row.ip_address }}">Teraterm</a><br>
+                                    <a href="{{ zabbix_url }}?search={{ row.hostname }}" target="_blank">Zabbix</a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% else %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="mt-4">
+                <h6>ループ構成機器</h6>
+                <table id="machineTable" class="table cell-border compact nowrap hover w-100">
+                    <thead>
+                        <tr class="table-primary">
+                            <th>ホスト名</th>
+                            <th>IPアドレス</th>
+                            <th>ポート</th>
+                            <th>タイプ</th>
+                            <th>MACFLAP(回/分)</th>
+                            <th>設置場所</th>
+                            <th>設置ラック</th>
+                            <th>NW系統</th>
+                            <th>VLAN</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in loops %}
+                            <tr>
+                                <td class="text-center">{{ row.hostname }}</td>
+                                <td class="text-center">{{ row.ip_address }}</td>
+                                <td>{{ row.if_name }}</td>
+                                <td>{{ row.machine_type }}</td>
+                                <td>{{ row.macflap_count_per_min }}</td>
+                                <td>{{ row.location }}</td>
+                                <td>{{ row.rack_location }}</td>
+                                <td>{{ row.nw_type }}</td>
+                                <td>{{ row.vlan_id }}</td>
+                                <td>
+                                    <a href="teraterm://{{ row.ip_address }}">Teraterm</a><br>
+                                    <a href="{{ zabbix_url }}?search={{ row.hostname }}" target="_blank">Zabbix</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="mt-4">
+                <h6>ネットワーク機器接続不可情報</h6>
+                <table id="disconnectTable" class="table cell-border compact hover w-100">
+                    <thead>
+                        <tr class="table-primary">
+                            <th>ホスト名</th>
+                            <th>IPアドレス</th>
+                            <th>接続方法</th>
+                            <th>エラー内容</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in devices %}
+                            <tr>
+                                <td class="text-center">{{ row.hostname }}</td>
+                                <td class="text-center">{{ row.ip_address }}</td>
+                                <td class="text-center">{{ row.connect_method }}</td>
+                                <td>{{ row.error_content }}</td>
+                            </tr>
+                        {% else %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+
+            <!-- 30：強制終了 or 40：異常終了 -->
+            {% elif job.job_status_cd == '030' or job.job_status_cd == '040' %}
+            <article class="mt-4">
+                このジョブは{{ job.job_status_name }}しました
+                <p>
+                    <br>
+                    {{ job.result_content }}
+                </p>
+            </article>
+            {% endif %}
+
+            <article class="mt-4">
+                <section class="d-flex row m-2">
+                {% if job.job_status_cd == '010' %}
+                    <button type="button" id="btnExecute" class="btn btn-primary mr-2" onclick="onEditJob()">編集</button>
+                    <button type="button" id="btnTermination" class="btn btn-danger mr-2" onclick="onTerminationJob()">強制終了</button>
+                    <button type="button" id="btnOutputCsv" class="btn btn-info mr-2" disabled>CSV出力</button>
+                    <button type="button" id="btnCancel" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                {% elif job.job_status_cd == '020' or job.job_status_cd == '021' %}
+                    <button type="button" id="btnExecute" class="btn btn-primary mr-2" onclick="onEditJob()">編集</button>
+                    <button type="button" id="btnTermination" class="btn btn-danger mr-2" disabled>強制終了</button>
+                    <button type="button" id="btnOutputCsv" class="btn btn-info mr-2" onclick="onOutputCsv()">CSV出力</button>
+                    <button type="button" id="btnCancel" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                {% elif job.job_status_cd == '030' or job.job_status_cd == '035' or job.job_status_cd == '040' %}
+                    <button type="button" id="btnExecute" class="btn btn-primary mr-2" onclick="onEditJob()">編集</button>
+                    <button type="button" id="btnTermination" class="btn btn-danger mr-2" disabled>強制終了</button>
+                    <button type="button" id="btnOutputCsv" class="btn btn-info mr-2" disabled>CSV出力</button>
+                    <button type="button" id="btnCancel" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                {% endif %}
+                </section>
+            </article>
+        </article>
+    </div>
+
+    <!-- 隠しパラメータ -->
+    <input type="hidden" name="jobId" id="jobId" value="{{ job.job_id }}">
+    <input type="hidden" name="modTime" value="{{ job.modified_timestamp }}">
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pages/job-detail.js') }}"></script>
+{% endblock %}

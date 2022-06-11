@@ -1,0 +1,33 @@
+.cell-border thead th {
+    border-right: 1px solid #ccc;
+    border-bottom: 0px !important;
+    border-bottom-width: 0px !important;
+}
+#jobTable_paginate {
+    float: none !important;
+    text-align: center !important;
+}
+#jobTable td a {
+    color: #007bff;
+}
+#jobTable td a:hover {
+    cursor: pointer !important;
+    text-decoration: underline;
+    color: #0056b3;
+}
+#fromDate {
+    max-width: 180px;
+}
+#toDate {
+    max-width: 180px;
+}
+#lblWavyLine {
+    margin: 0.5rem 20px;
+}
+#lblSelectItem {
+    margin-right: 10px;
+}
+#selectProcess {
+    max-width:150px;
+    margin-right: 10px;
+}

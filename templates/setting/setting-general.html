@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>設定画面</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/setting.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="post" id="frmSettingGeneral">
+    <div class="cp_breadcrumb">
+        <ul class="breadcrumbs">
+            <li><a href="/top">TOP</a></li>
+            <li>設定</li>
+        </ul>
+    </div>
+
+    <div class="container-fluid">
+        <div class="m-auto">
+            <article id="InputSection">
+                <section class="my-3">
+                    <h4 class="m-2">一般設定</h4>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="jobLinesPage" class="side-label col-sm-4 col-md-3 col-lg-3">1ページ表示数(TOP画面)</label>
+                        <input type="text" name="jobLinesPage" id="jobLinesPage" class="form-control" maxlength="3" data-validation="false" value="{{ setting.job_lines_page }}" onblur="onBlurJobLinesPage(this)">
+                        <span class="c-tooltip" data-tooltip="TOP画面で1ページに表示するジョブ件数">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="dataGetTimeout" class="side-label col-sm-4 col-md-3 col-lg-3">情報取得タイムアウト(秒)</label>
+                        <input type="text" name="dataGetTimeout" id="dataGetTimeout" class="form-control" maxlength="2" data-validation="false" value="{{ setting.data_get_timeout }}" onblur="onBlurDataTimeout(this)">
+                        <span class="c-tooltip" data-tooltip="SYSLOG、ZABBIXサーバへの問い合わせタイムアウト時間">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="macflapGetTime" class="side-label col-sm-4 col-md-3 col-lg-3">MACFLAP数取得基準時間(分)</label>
+                        <input type="text" name="macflapGetTime" id="macflapGetTime" class="form-control" maxlength="4" data-validation="false" value="{{ setting.macflap_get_time }}" onblur="onBlurMacflapTime(this)">
+                        <span class="c-tooltip" data-tooltip="MACFLAP数の取得開始日時(現在日時-N分)のN分に当たる値を設定">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="broadcastGetTime" class="side-label col-sm-4 col-md-3 col-lg-3">ブロードキャスト数取得基準時間(分)</label>
+                        <input type="text" name="broadcastGetTime" id="broadcastGetTime" class="form-control" maxlength="4" data-validation="false" value="{{ setting.broadcast_get_time }}" onblur="onBlurBroadcastTime(this)">
+                        <span class="c-tooltip" data-tooltip="ブロードキャスト数取得の取得開始日時(現在日時-N分)のN分に当たる値を設定 ">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="defaultBcastTime" class="side-label col-sm-4 col-md-3 col-lg-3">使用BCAST時間初期値(現時刻-N分)</label>
+                        <input type="text" name="defaultBcastTime" id="defaultBcastTime" class="form-control" maxlength="5" data-validation="false" value="{{ setting.default_bcast_time }}" onblur="onBlurBcastTime(this)">
+                        <span class="c-tooltip" data-tooltip="ジョブ作成時、デフォルトでセットされているBCAST時間初期値。初期値は設定分前となる">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="defaultJobTitle" class="side-label col-sm-4 col-md-3 col-lg-3">ジョブタイトル初期値</label>
+                        <input type="text" name="defaultJobTitle" id="defaultJobTitle" class="form-control" maxlength="25" value="{{ setting.default_job_title }}">
+                        <span class="c-tooltip" data-tooltip="ジョブ作成時のタイトル初期値">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="autoJobTitle" class="side-label col-sm-4 col-md-3 col-lg-3">ジョブタイトル(自動実行)</label>
+                        <input type="text" name="autoJobTitle" id="autoJobTitle" class="form-control" maxlength="25" value="{{ setting.auto_job_title }}">
+                        <span class="c-tooltip" data-tooltip="ループ発生トリガーにより自動実行されたときのジョブタイトル">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="outputLogLvl" class="side-label col-sm-4 col-md-3 col-lg-3">出力ログレベル</label>
+                        <select name="outputLogLvl" id="outputLogLvl" class="form-control custom-select">
+                            <option value="000">---</option>
+                            {% for lvl in log_lvl %}
+                                {% if lvl.log_lvl_cd == setting.output_log_lvl_cd %}
+                                    <option value="{{ lvl.log_lvl_cd }}" selected>{{ lvl.log_lvl_name }}</option>
+                                {% else %}
+                                    <option value="{{ lvl.log_lvl_cd }}">{{ lvl.log_lvl_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="outputLogLvl" id="labelOutputLogLvl" class="form-control label-text d-none"></label>
+                        <span class="c-tooltip" data-tooltip="設定レベル以上のログが出力される">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="stockTerm" class="side-label col-sm-4 col-md-3 col-lg-3">保存期間(日)</label>
+                        <input type="text" name="stockTerm" id="stockTerm" class="form-control" maxlength="4" data-validation="false" value="{{ setting.stock_term }}" onblur="onBlurStockTerm(this);">
+                        <span class="c-tooltip" data-tooltip="ループ箇所特定ツールおよびApacheのログ保存期間">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="logLinesPage" class="side-label col-sm-4 col-md-3 col-lg-3">1ページ表示数(ログ画面)</label>
+                        <input type="text" name="logLinesPage" id="logLinesPage" class="form-control" maxlength="3" data-validation="false" value="{{ setting.log_lines_page }}" onblur="onBlurLogLinesPage(this)">
+                        <span class="c-tooltip" data-tooltip="ログ画面の1ページ当たりの表示数">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="loginFailCount" class="side-label col-sm-4 col-md-3 col-lg-3">ブルートフォースアタック検知ログ閾値(ログ失敗回数/分)</label>
+                        <input type="text" name="loginFailCount" id="loginFailCount" class="form-control" maxlength="4" data-validation="false" value="{{ setting.login_fail_count }}" onblur="onBlurLoginFailCount(this)">
+                        <span class="c-tooltip" data-tooltip="不正アクセス検知用機能の閾値。1分間に指定回数以上ログインに失敗するとログが出力される">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="regularJobTitle" class="side-label col-sm-4 col-md-3 col-lg-3">ジョブタイトル(定期実行)</label>
+                        <input type="text" name="regularJobTitle" id="regularJobTitle" class="form-control" maxlength="25" value="{{ setting.regular_job_title }}">
+                        <span class="c-tooltip" data-tooltip="動作確認のため、定期的に実行されるジョブのタイトル">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="regularExecuteCycle" class="side-label col-sm-4 col-md-3 col-lg-3">定期実行間隔(日)</label>
+                        <input type="text" name="regularExecuteCycle" id="regularExecuteCycle" class="form-control" data-validation="false" maxlength="4" value="{{ setting.regular_execute_cycle }}" onblur="onBlurExecuteCycle(this)">
+                        <span class="c-tooltip" data-tooltip="動作確認のため、定期的に実行されるジョブの実行間隔">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="regularExecuteTime" class="side-label col-sm-4 col-md-3 col-lg-3">定期実行時間</label>
+                        <input type="time" name="regularExecuteTime" id="regularExecuteTime" class="form-control" data-validation="false" value="{{ setting.regular_execute_time }}">
+                        <span class="c-tooltip" data-tooltip="動作確認のため、定期的に実行されるジョブの実行時間">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="passwordModTerm" class="side-label col-sm-4 col-md-3 col-lg-3">パスワード変更期間</label>
+                        <input type="text" name="passwordModTerm" id="passwordModTerm" class="form-control" maxlength="4" data-validation="false" value="{{ setting.password_mod_term }}" onblur="onBlurPasswordModTerm(this)">
+                        <span class="c-tooltip" data-tooltip="パスワード変更期間を過ぎていた場合、警告メッセージが表示される">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="fromMailAddress" class="side-label col-sm-4 col-md-3 col-lg-3">送信元メールアドレス</label>
+                        <input type="text" name="fromMailAddress" id="fromMailAddress" class="form-control" maxlength="255" data-validation="false" value="{{ setting.from_mail_address }}" onblur="onBlurFromMailAddress(this)">
+                        <span class="c-tooltip" data-tooltip="ジョブ実行結果の送信元となるメールアドレス">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-row mb-2">
+                        <label for="toMailAddress" class="side-label col-sm-4 col-md-3 col-lg-3">送信先メールアドレス</label>
+                        <input type="text" name="toMailAddress" id="toMailAddress" class="form-control" maxlength="255" data-validation="false" value="{{ setting.to_mail_address }}" onblur="onBlurToMailAddress(this)">
+                        <span class="c-tooltip" data-tooltip="ジョブ実行結果の送信先となるメールアドレス">
+                            <i class="fas fa-info-circle fa-lg hint-icon"></i>
+                        </span>
+                    </div>
+                </section>
+
+                <!-- 隠しパラメータ -->
+                <input type="hidden" name="modTime" value="{{ setting.modified_timestamp }}">
+            </article>
+
+            <article id="ButtonSection" class="mt-4">
+                <section id="SectionEdit">
+                    <div class="d-flex m-2">
+                        <button type="button" id="btnConfirm" class="btn btn-primary mr-2" onclick="onConfirmGeneral(this)">確認</button>
+                        <button type="button" id="btnOutputSetting" class="btn btn-success mr-2" onclick="onOutputSetting(this)">現在の設定を出力</button>
+                        <button type="button" id="btnDefault" class="btn btn-secondary mr-2" onclick="onDefaultSetting(this)">デフォルト</button>
+                        <button type="button" id="btnCancel1" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                    </div>
+                </section>
+                <section id="SectionConfirm" class="d-none">
+                    <div class="d-flex m-2">
+                        <button type="button" id="btnUpdate" class="btn btn-primary mr-2" onclick="onChangeGeneral(this)">変更</button>
+                        <button type="button" id="btnEdit" class="btn btn-info mr-2" onclick="onEditGeneral(this)">編集画面へ戻る</button>
+                        <button type="button" id="btnCancel2" class="btn btn-light mr-2" onclick="onCancel(this)">キャンセル</button>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pages/setting.js') }}"></script>
+{% endblock %}

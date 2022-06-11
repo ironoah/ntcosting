@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ログイン</title>
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+        <!-- favicon -->
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <!-- stylesheet -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg fixed-top" style="background-color:#2F75B5">
+                <a class="navbar-brand font-weight-bold text-white" style="font-size: 26px;">
+                    ループ箇所特定ツール
+                </a>
+            </nav>
+        </header>
+
+        <div id="app" class="body-content">
+            <main class="p-2">
+                {% if message %}
+                <div class="alert alert-danger fade show">
+                    {{ message }}
+                </div>
+                {% endif %}
+
+                <h3 style="padding-top: 100px; text-align:center">ループ箇所特定ツール</h3>
+                <form method="post" action="/login" id="frmLogin">
+                    <div class="container w-25">
+                        <div class="card card-body text-center">
+                            <div class="form-group">
+                                <label for="userId" class="form-label text-center" style="font-size: 20px;">USER</label>
+                                <input type="text" name="userId" id="userId" class="form-control" maxlength="10" oninput="onBtnLoginCtrl()" />
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="form-label text-center" style="font-size: 20px;">PASSWORD</label>
+                                <input type="password" name="password" id="password" class="form-control" maxlength="10" oninput="onBtnLoginCtrl()" />
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" name="btnLogin" id="btnLogin" onclick="onLogin(this)" disabled>ログイン</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <footer>
+            <p>ループ箇所特定ツール Ver 1.0.0</p>
+            <p>© 2021 N.Tanigawa</p>
+        </footer>
+
+        <!-- jquery -->
+        <script src="{{ url_for('static', filename='js/jquery/jquery-3.6.0.min.js') }}"></script>
+        <!-- bootstrap -->
+        <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js') }}"></script>
+        <!-- script -->
+        <script src="{{ url_for('static', filename='js/system.js') }}"></script>
+        <!-- page script -->
+        <script src="{{ url_for('static', filename='js/pages/login.js') }}"></script>
+
+        <script>
+            var path = "{{ url_for('static', filename='loader.gif') }}"
+        </script>
+    </body>
+</html>

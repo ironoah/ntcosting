@@ -1,0 +1,25 @@
+.cell-border thead th {
+    border-right: 1px solid #ccc;
+    border-bottom: 0px !important;
+    border-bottom-width: 0px !important;
+}
+.th-text-center th {
+    text-align: center !important;
+}
+#logTable_paginate {
+    float: none !important;
+    text-align: center !important;
+}
+#logTable td a {
+    color: #007bff;
+}
+#logTable td a:hover {
+    cursor: pointer !important;
+    text-decoration: underline;
+    color: #0056b3;
+}
+#lblFuzzySearch {
+    color: dodgerblue;
+    margin-top: .5rem !important;
+    margin-left: .5rem !important;
+}

@@ -1,0 +1,79 @@
+footer {
+    position: fixed !important;
+}
+.side-label {
+    margin-top: 0.5rem !important;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-align: right;
+    position: relative;
+    width: 100%;
+}
+.label-text {
+    background-color: #fff !important;
+    border: 0px !important;
+    pointer-events: none !important;
+}
+#jobLinesPage {
+    max-width: 100px;
+}
+#dataGetTimeout {
+    max-width: 100px;
+}
+#macflapGetTime {
+    max-width: 100px;
+}
+#broadcastGetTime {
+    max-width: 100px;
+}
+#defaultBcastTime {
+    max-width: 100px;
+}
+#defaultJobTitle {
+    max-width: 500px;
+}
+#autoJobTitle {
+    max-width: 500px;
+}
+#outputLogLvl {
+    max-width: 200px;
+}
+#labelOutputLogLvl {
+    max-width: 200px;
+}
+#stockTerm {
+    max-width: 100px;
+}
+#logLinesPage {
+    max-width: 100px;
+}
+#loginFailCount {
+    max-width: 100px;
+}
+#regularJobTitle {
+    max-width: 500px;
+}
+#regularExecuteCycle {
+    max-width: 100px;
+}
+#regularExecuteTime {
+    max-width: 120px;
+}
+#fromMailAddress {
+    max-width: 500px;
+}
+#toMailAddress {
+    max-width: 500px;
+}
+#passwordModTerm {
+    max-width: 100px;
+}
+#user {
+    max-width: 300px;
+}
+#password {
+    max-width: 250px;
+}
+#reconfPassword {
+    max-width: 250px;
+}
